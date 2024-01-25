@@ -5,19 +5,28 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.educationappmvvm.R
 import com.example.educationappmvvm.databinding.ScreenAddCourseBinding
+import com.example.educationappmvvm.presenter.data.model.CourseData
+import com.example.educationappmvvm.presenter.screen.course.CourseViewModel
 import com.example.educationappmvvm.presenter.utils.myLog
 
 class AddCourseScreen : Fragment(R.layout.screen_add_course) {
     private var listener: ((String) -> Unit)? = null
-
+    private val viewModel = CourseViewModel()
+    private var currentData: String = ""
     private val binding by viewBinding(ScreenAddCourseBinding::bind)
-    private val navigation by lazy(LazyThreadSafetyMode.NONE) { findNavController() }
+    private lateinit var navigation: NavController
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        navigation = view.findNavController()
+
+        val name = binding.editTextGroupName
+        name.setText(currentData)
 
         binding.btnBack.setOnClickListener {
             navigation.popBackStack()
@@ -27,14 +36,12 @@ class AddCourseScreen : Fragment(R.layout.screen_add_course) {
             val enteredName = binding.editTextGroupName.text.toString().trim()
             if (enteredName.length >= 3) {
 
-                listener?.invoke(enteredName)
-//                navigation.navigate(R.id.action_addCourseScreen_to_courseScreen, Bundle().apply {
-//                    putString("courseName", enteredName)
-//                })
-
+                if (currentData == "") {
+                    viewModel.addCourse(CourseData(0, enteredName))
+                } else {
+                    viewModel.updateCourse(CourseData(0, enteredName))
+                }
                 navigation.popBackStack()
-
-                "add course screen ${listener?.invoke(enteredName)}".myLog()
 
             } else if (enteredName.isEmpty()) {
                 binding.groupInput.error = "Please, enter course name!"
@@ -66,14 +73,15 @@ class AddCourseScreen : Fragment(R.layout.screen_add_course) {
                             binding.editTextGroupName.text.toString().trim().length < 3
                     }
                 })
-
             }
         }
+    }
+
+    fun setEditableData(name: String) {
+        currentData = name
     }
 
     fun setListener(block: (String) -> Unit) {
         listener = block
     }
-
-
 }

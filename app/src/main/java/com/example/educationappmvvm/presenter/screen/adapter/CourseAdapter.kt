@@ -10,6 +10,9 @@ import com.example.educationappmvvm.presenter.data.model.CourseData
 
 class CourseAdapter : ListAdapter<CourseData, CourseAdapter.CourseViewHolder>(CourseDiffUtil) {
 
+    private var onLongClickListener: ((CourseData) -> Unit)? = null
+    private var onClickListener: ((Long) -> Unit)? = null
+
     object CourseDiffUtil : DiffUtil.ItemCallback<CourseData>() {
         override fun areItemsTheSame(oldItem: CourseData, newItem: CourseData): Boolean =
             oldItem.id == newItem.id
@@ -21,6 +24,21 @@ class CourseAdapter : ListAdapter<CourseData, CourseAdapter.CourseViewHolder>(Co
 
     inner class CourseViewHolder(private val binding: ItemCourseBinding) :
         ViewHolder(binding.root) {
+
+        init {
+            binding.root.setOnLongClickListener {
+                onLongClickListener?.invoke(
+                    getItem(absoluteAdapterPosition)
+                )
+                return@setOnLongClickListener true
+            }
+
+            binding.root.setOnClickListener {
+                onClickListener?.invoke(
+                    getItem(absoluteAdapterPosition).id
+                )
+            }
+        }
 
         fun bind() {
             binding.txtCourseName.text = getItem(absoluteAdapterPosition).name
@@ -34,5 +52,13 @@ class CourseAdapter : ListAdapter<CourseData, CourseAdapter.CourseViewHolder>(Co
         )
 
     override fun onBindViewHolder(holder: CourseViewHolder, position: Int) = holder.bind()
+
+    fun setOnLongClickListener(block: (CourseData) -> Unit) {
+        this.onLongClickListener = block
+    }
+
+    fun setOnClickListener(block: (Long) -> Unit) {
+        this.onClickListener = block
+    }
 
 }

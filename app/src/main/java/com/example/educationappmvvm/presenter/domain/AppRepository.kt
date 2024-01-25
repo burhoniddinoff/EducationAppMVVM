@@ -7,6 +7,8 @@ interface AppRepository {
 
     fun allCourse(): List<CourseData>
     fun addCourse(data: CourseData)
+    fun updateCourse(data: CourseData)
     fun deleteCourse(data: CourseData)
+
 
 }

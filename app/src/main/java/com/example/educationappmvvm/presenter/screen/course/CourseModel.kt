@@ -10,6 +10,7 @@ class CourseModel {
 
     fun allCourse(): List<CourseData> = repository.allCourse()
     fun addCourse(data: CourseData) = repository.addCourse(data)
+    fun updateCourse(data: CourseData) = repository.updateCourse(data)
     fun deleteCourse(data: CourseData) = repository.deleteCourse(data)
 
 

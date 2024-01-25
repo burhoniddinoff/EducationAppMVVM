@@ -11,15 +11,14 @@ class CourseViewModel {
     private val _course = MutableLiveData<List<CourseData>>()
     val course: LiveData<List<CourseData>> get() = _course
 
-
-        private val _isEmpty = MutableLiveData<Boolean>()
+    private val _isEmpty = MutableLiveData<Boolean>()
     val isEmpty: LiveData<Boolean> get() = _isEmpty
 
     init {
         loadCourse()
     }
 
-     fun loadCourse() {
+    fun loadCourse() {
         val ls = model.allCourse()
         _isEmpty.value = ls.isEmpty()
         _course.value = ls
@@ -27,6 +26,11 @@ class CourseViewModel {
 
     fun addCourse(data: CourseData) {
         model.addCourse(data)
+        loadCourse()
+    }
+
+    fun updateCourse(data: CourseData) {
+        model.updateCourse(data)
         loadCourse()
     }
 

@@ -29,19 +29,13 @@
             android:id="@+id/action_courseScreen_to_addCourseScreen"
             app:destination="@id/addCourseScreen" />
 
-
     </fragment>
+
     <fragment
         android:id="@+id/addCourseScreen"
         android:name="com.example.educationappmvvm.presenter.screen.add.AddCourseScreen"
         android:label="AddCourseScreen"
         tools:layout="@layout/screen_add_course">
-
-        <action
-            android:id="@+id/action_addCourseScreen_to_courseScreen"
-            app:destination="@id/courseScreen" />
-
-
 
     </fragment>
 

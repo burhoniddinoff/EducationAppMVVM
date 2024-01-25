@@ -1,7 +1,13 @@
 package com.example.educationappmvvm.presenter.screen.course
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -12,6 +18,7 @@ import com.example.educationappmvvm.presenter.data.model.CourseData
 import com.example.educationappmvvm.presenter.screen.adapter.CourseAdapter
 import com.example.educationappmvvm.presenter.screen.add.AddCourseScreen
 import com.example.educationappmvvm.presenter.utils.myLog
+import com.example.educationappmvvm.presenter.utils.replaceScreen
 
 class CourseScreen : Fragment(R.layout.screen_course) {
     private val binding by viewBinding(ScreenCourseBinding::bind)
@@ -33,21 +40,51 @@ class CourseScreen : Fragment(R.layout.screen_course) {
         }
 
         binding.btnAddCourse.setOnClickListener {
-
-            val addCourseScreen = AddCourseScreen()
-
-            addCourseScreen.setListener {
-                it.myLog()
-                viewModel.addCourse(CourseData(0, it))
-            }
-
             navController.navigate(CourseScreenDirections.actionCourseScreenToAddCourseScreen())
         }
 
-
+        adapter.setOnLongClickListener {
+            showDialog(it)
+        }
 
         viewModel.loadCourse()
 
+    }
+
+    private fun showDialog(data: CourseData) {
+        val dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.bottom_sheet)
+
+        dialog.findViewById<ImageView>(R.id.dialog_delete).setOnClickListener {
+            viewModel.deleteCourse(data)
+            dialog.dismiss()
+        }
+
+        dialog.findViewById<ImageView>(R.id.dialog_edit).setOnClickListener {
+
+//            val titleDialog = AddCourseScreen()
+//
+//            titleDialog.setEditableData(data.name)
+//            titleDialog.setUsedData(presenter.getAllCourse())
+//            titleDialog.setListener { name ->
+//                viewModel.updateCourse(CourseData(data.id, name))
+//            }
+
+            dialog.dismiss()
+            navController.navigate(R.id.action_courseScreen_to_addCourseScreen, Bundle().apply {
+                putString("courseName", data.name)
+            })
+        }
+
+        dialog.show()
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+        dialog.window?.setGravity(Gravity.BOTTOM)
     }
 
 }

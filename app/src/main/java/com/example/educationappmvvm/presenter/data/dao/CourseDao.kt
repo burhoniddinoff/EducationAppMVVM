@@ -17,8 +17,8 @@ interface CourseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCourse(data: CourseData)
 
-//    @Update
-//    fun updateCourse(data: CourseData)
+    @Update
+    fun updateCourse(data: CourseData)
 
     @Delete
     fun deleteCourse(data: CourseData)

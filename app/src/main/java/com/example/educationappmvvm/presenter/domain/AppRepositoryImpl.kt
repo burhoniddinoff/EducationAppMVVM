@@ -21,9 +21,8 @@ class AppRepositoryImpl : AppRepository {
     private var getCourseDao = db.getCourseDao()
 
     override fun allCourse(): List<CourseData> = getCourseDao.getAllCourse()
-
     override fun addCourse(data: CourseData) = getCourseDao.insertCourse(data)
-
+    override fun updateCourse(data: CourseData) = getCourseDao.updateCourse(data)
     override fun deleteCourse(data: CourseData) = getCourseDao.deleteCourse(data)
 
 
