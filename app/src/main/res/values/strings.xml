@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">EducationAppMVVM</string>
+    <string name="student_attendance">Attendance</string>
+    <string name="splash">Splash</string>
+    <string name="group_name">Group name</string>
+    <string name="add_group">Add group</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="age">Age</string>
+    <string name="course_name">Course name</string>
+    <string name="time_period">time period</string>
+    <string name="new_student">   + New Student    </string>
+    <string name="mon">Mon</string>
+    <string name="tue">Tue</string>
+    <string name="wed">Wed</string>
+    <string name="thu">Thu</string>
+    <string name="fri">Fri</string>
+    <string name="sat">Sat</string>
+    <string name="sun">Sun</string>
+    <string name="full_name">Full Name</string>
+    <string name="list_of_groups">List of Groups</string>
+    <string name="my_edu">my edu</string>
+    <string name="list_of_courses">List of Courses</string>
+    <string name="user">User</string>
+    <string name="test">Test</string>
+    <string name="f_i_o">F.I.O</string>
+    <string name="add_course">Add Course</string>
+    <string name="course_name_hint">Course name</string>
+</resources>
