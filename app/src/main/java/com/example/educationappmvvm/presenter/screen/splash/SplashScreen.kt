@@ -15,6 +15,7 @@ class SplashScreen : Fragment(R.layout.screen_splash) {
         Handler().postDelayed({
             findNavController().navigate(SplashScreenDirections.actionSplashScreenToCourseScreen())
         }, 1500)
+
     }
 
 }

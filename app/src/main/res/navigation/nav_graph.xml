@@ -10,16 +10,39 @@
         android:name="com.example.educationappmvvm.presenter.screen.splash.SplashScreen"
         android:label="SplashScreen"
         tools:layout="@layout/screen_splash">
+
         <action
             android:id="@+id/action_splashScreen_to_courseScreen"
             app:destination="@id/courseScreen"
-            app:popUpTo="@layout/screen_splash"
+            app:popUpTo="@id/splashScreen"
             app:popUpToInclusive="true" />
+
     </fragment>
 
     <fragment
         android:id="@+id/courseScreen"
         android:name="com.example.educationappmvvm.presenter.screen.course.CourseScreen"
-        android:label="CourseScreen" />
+        android:label="CourseScreen"
+        tools:layout="@layout/screen_course">
+
+        <action
+            android:id="@+id/action_courseScreen_to_addCourseScreen"
+            app:destination="@id/addCourseScreen" />
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/addCourseScreen"
+        android:name="com.example.educationappmvvm.presenter.screen.add.AddCourseScreen"
+        android:label="AddCourseScreen"
+        tools:layout="@layout/screen_add_course">
+
+        <action
+            android:id="@+id/action_addCourseScreen_to_courseScreen"
+            app:destination="@id/courseScreen" />
+
+
+
+    </fragment>
 
 </navigation>
