@@ -14,12 +14,13 @@ class CourseAdapter : ListAdapter<CourseData, CourseAdapter.CourseViewHolder>(Co
     private var onClickListener: ((Long) -> Unit)? = null
 
     object CourseDiffUtil : DiffUtil.ItemCallback<CourseData>() {
-        override fun areItemsTheSame(oldItem: CourseData, newItem: CourseData): Boolean =
-            oldItem.id == newItem.id
+        override fun areItemsTheSame(oldItem: CourseData, newItem: CourseData): Boolean {
+            return oldItem.id == newItem.id
+        }
 
-
-        override fun areContentsTheSame(oldItem: CourseData, newItem: CourseData): Boolean =
-            oldItem.name == newItem.name
+        override fun areContentsTheSame(oldItem: CourseData, newItem: CourseData): Boolean {
+            return oldItem.name == newItem.name
+        }
     }
 
     inner class CourseViewHolder(private val binding: ItemCourseBinding) :
@@ -48,7 +49,9 @@ class CourseAdapter : ListAdapter<CourseData, CourseAdapter.CourseViewHolder>(Co
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder =
         CourseViewHolder(
-            ItemCourseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemCourseBinding.inflate(
+                LayoutInflater.from(parent.context), parent, false
+            )
         )
 
     override fun onBindViewHolder(holder: CourseViewHolder, position: Int) = holder.bind()

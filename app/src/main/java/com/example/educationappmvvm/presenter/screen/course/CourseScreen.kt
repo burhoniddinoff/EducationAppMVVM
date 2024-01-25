@@ -40,14 +40,32 @@ class CourseScreen : Fragment(R.layout.screen_course) {
         }
 
         binding.btnAddCourse.setOnClickListener {
-            navController.navigate(CourseScreenDirections.actionCourseScreenToAddCourseScreen())
+            addCourse()
         }
 
         adapter.setOnLongClickListener {
             showDialog(it)
         }
 
+        adapter.setOnClickListener {
+            val descr = CourseScreenDirections.actionCourseScreenToGroupScreen(it)
+            navController.navigate(descr)
+        }
+
         viewModel.loadCourse()
+
+    }
+
+    private fun addCourse() {
+        val addCourse = AddCourseScreen()
+
+//            addCourse.setUsedData(viewModel())
+        addCourse.setOnSaveClickListener { name ->
+            viewModel.addCourse(CourseData(0, name))
+        }
+
+        replaceScreen(addCourse)
+//            navController.navigate(CourseScreenDirections.actionCourseScreenToAddCourseScreen())
 
     }
 
@@ -62,18 +80,16 @@ class CourseScreen : Fragment(R.layout.screen_course) {
 
         dialog.findViewById<ImageView>(R.id.dialog_edit).setOnClickListener {
 
-//            val titleDialog = AddCourseScreen()
-//
-//            titleDialog.setEditableData(data.name)
-//            titleDialog.setUsedData(presenter.getAllCourse())
-//            titleDialog.setListener { name ->
-//                viewModel.updateCourse(CourseData(data.id, name))
-//            }
+            val titleDialog = AddCourseScreen()
+
+            titleDialog.setEditableData(data.name)
+//            titleDialog.setUsedData(viewModel.getAllCourse())
+            titleDialog.setOnSaveClickListener { name ->
+                viewModel.updateCourse(CourseData(data.id, name))
+            }
 
             dialog.dismiss()
-            navController.navigate(R.id.action_courseScreen_to_addCourseScreen, Bundle().apply {
-                putString("courseName", data.name)
-            })
+            replaceScreen(titleDialog)
         }
 
         dialog.show()

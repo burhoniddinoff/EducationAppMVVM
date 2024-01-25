@@ -38,5 +38,4 @@ class CourseViewModel {
         model.deleteCourse(data)
         loadCourse()
     }
-
 }

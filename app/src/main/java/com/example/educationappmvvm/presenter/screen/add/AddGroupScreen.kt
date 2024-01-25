@@ -5,32 +5,26 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.educationappmvvm.R
-import com.example.educationappmvvm.databinding.ScreenAddCourseBinding
-import com.example.educationappmvvm.presenter.data.model.CourseData
-import com.example.educationappmvvm.presenter.screen.course.CourseViewModel
-import com.example.educationappmvvm.presenter.utils.myLog
+import com.example.educationappmvvm.databinding.ScreenAddGroupBinding
+import com.example.educationappmvvm.presenter.data.model.GroupData
 import com.example.educationappmvvm.presenter.utils.popBackStack
 
-class AddCourseScreen : Fragment(R.layout.screen_add_course) {
+class AddGroupScreen : Fragment(R.layout.screen_add_group) {
     private var listener: ((String) -> Unit)? = null
-    private var currentData: String = ""
-    private var currentUsedDates: List<CourseData> = emptyList()
-    private val binding by viewBinding(ScreenAddCourseBinding::bind)
+    private var listenerEdit: ((String) -> Unit)? = null
 
-    private val navController by lazy(LazyThreadSafetyMode.NONE) { findNavController() }
+    private var currentData: String = ""
+    private var currentUsedDates: List<GroupData> = emptyList()
+    private val binding by viewBinding(ScreenAddGroupBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val name = binding.editTextGroupName
         name.setText(currentData)
 
-        binding.btnBack.setOnClickListener {
-//            navController.popBackStack()
+        binding.imageBack.setOnClickListener {
             popBackStack()
         }
 
@@ -38,15 +32,15 @@ class AddCourseScreen : Fragment(R.layout.screen_add_course) {
             val enteredName = name.text.toString().trim()
             if (enteredName.length >= 3 && checkName(enteredName)) {
                 listener?.invoke(enteredName)
-//                navController.popBackStack()
+                listenerEdit?.invoke(enteredName)
                 popBackStack()
             } else if (enteredName.isEmpty()) {
-                binding.groupInput.error = "Please, enter course name!"
+                binding.groupInput.error = " Please, enter name!"
             } else if (enteredName.length < 3) {
-                binding.groupInput.error = "Course name should consist of at least 3 characters!"
+                binding.groupInput.error = "Group name should consist of at least 3 characters!"
             } else {
                 binding.groupInput.error =
-                    "This course name is already in use, or didn't meet required criteria!"
+                    "This group name is already in use, or didn't meet required criteria!"
 
                 binding.editTextGroupName.addTextChangedListener(object : TextWatcher {
                     override fun beforeTextChanged(
@@ -67,10 +61,9 @@ class AddCourseScreen : Fragment(R.layout.screen_add_course) {
 
                     override fun afterTextChanged(s: Editable?) {
                         binding.groupInput.isErrorEnabled =
-                            binding.editTextGroupName.text.toString().trim().length < 3
+                            binding.editTextGroupName.text.toString().length < 3
                     }
                 })
-
             }
         }
     }
@@ -79,16 +72,19 @@ class AddCourseScreen : Fragment(R.layout.screen_add_course) {
         return !currentUsedDates.any { it.name == enteredName.trim() }
     }
 
-
     fun setEditableData(name: String) {
         currentData = name
     }
 
-    fun setUsedData(data: List<CourseData>) {
+    fun setUsedData(data: List<GroupData>) {
         currentUsedDates = data
     }
 
     fun setOnSaveClickListener(block: (String) -> Unit) {
         listener = block
+    }
+
+    fun setOnEditClickListener(block: (String) -> Unit) {
+        listenerEdit = block
     }
 }

@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.example.educationappmvvm.R
 
-fun String.myLog() = Log.d("TTT", this)
+
+fun FragmentActivity.addScreen(fm: Fragment) {
+    supportFragmentManager.beginTransaction().add(R.id.container, fm).commit()
+}
 
 fun FragmentActivity.replaceScreen(fm: Fragment) {
     supportFragmentManager.beginTransaction()
@@ -14,6 +17,26 @@ fun FragmentActivity.replaceScreen(fm: Fragment) {
         .commit()
 }
 
+fun FragmentActivity.replaceScreenWithoutSave(fm: Fragment) {
+    supportFragmentManager.beginTransaction().replace(R.id.container, fm).commit()
+}
+
+
+fun FragmentActivity.popBackStack() {
+    supportFragmentManager.popBackStack()
+}
+
 fun Fragment.replaceScreen(fm: Fragment) {
     requireActivity().replaceScreen(fm)
 }
+
+fun Fragment.replaceScreenWithoutSave(fm: Fragment) {
+    requireActivity().replaceScreenWithoutSave(fm)
+}
+
+fun Fragment.popBackStack() {
+    requireActivity().popBackStack()
+}
+
+fun String.myLog() = Log.d("TTT", this)
+fun String.onlyLetters() = all { it.isLetter() }
